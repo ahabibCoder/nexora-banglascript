@@ -11,15 +11,55 @@
     },
     "_bs": {
       "iconPath": "./bs.svg"
+    },
+    "_js": {
+      "iconPath": "./js.svg"
+    },
+    "_ts": {
+      "iconPath": "./ts.svg"
+    },
+    "_json": {
+      "iconPath": "./json.svg"
+    },
+    "_md": {
+      "iconPath": "./md.svg"
+    },
+    "_py": {
+      "iconPath": "./py.svg"
+    },
+    "_cpp": {
+      "iconPath": "./cpp.svg"
     }
   },
   "file": "_file",
   "folder": "_folder",
   "folderExpanded": "_folder_expanded",
   "fileExtensions": {
-    "bs": "_bs"
+    "bs": "_bs",
+    "js": "_js",
+    "mjs": "_js",
+    "cjs": "_js",
+    "ts": "_ts",
+    "json": "_json",
+    "md": "_md",
+    "py": "_py",
+    "cpp": "_cpp",
+    "c": "_cpp",
+    "hpp": "_cpp",
+    "h": "_cpp"
+  },
+  "fileNames": {
+    "package.json": "_json",
+    "README.md": "_md",
+    "tsconfig.json": "_json"
   },
   "languageIds": {
-    "banglascript": "_bs"
+    "banglascript": "_bs",
+    "javascript": "_js",
+    "typescript": "_ts",
+    "json": "_json",
+    "markdown": "_md",
+    "python": "_py",
+    "cpp": "_cpp"
   }
 }
