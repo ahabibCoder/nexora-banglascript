@@ -16,6 +16,10 @@ lib/
 editors/vscode-banglascript/node_modules/
 editors/vscode-banglascript/.vscode-test/
 
+# Python cache
+__pycache__/
+*.pyc
+
 # OS artifacts
 .DS_Store
 Thumbs.db
