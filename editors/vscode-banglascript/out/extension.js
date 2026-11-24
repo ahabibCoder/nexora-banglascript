@@ -4,12 +4,25 @@ exports.activate = activate;
 exports.deactivate = deactivate;
 const vscode = require("vscode");
 const cp = require("child_process");
+const path = require("path");
+const fs = require("fs");
 let diagnosticCollection;
+let runStatusBarItem;
 function activate(context) {
     diagnosticCollection = vscode.languages.createDiagnosticCollection('banglascript');
     context.subscriptions.push(diagnosticCollection);
+    // Status bar item to run BanglaScript files
+    runStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+    runStatusBarItem.command = 'banglascript.run';
+    runStatusBarItem.text = '$(play) Run BanglaScript';
+    runStatusBarItem.tooltip = 'Click to compile and execute with BanglaScript VM';
+    context.subscriptions.push(runStatusBarItem);
     // Register Commands
     context.subscriptions.push(vscode.commands.registerCommand('banglascript.run', () => runCurrentFile(context)), vscode.commands.registerCommand('banglascript.check', () => checkCurrentFile(context)), vscode.commands.registerCommand('banglascript.compile', () => compileCurrentFile(context)), vscode.commands.registerCommand('banglascript.ast', () => showAST(context)), vscode.commands.registerCommand('banglascript.tac', () => showTAC(context)));
+    // Update status bar item on editor switch
+    context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(editor => {
+        updateStatusBarItem(editor);
+    }));
     // Validate on file save
     context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(document => {
         if (document.languageId === 'banglascript') {
@@ -17,13 +30,40 @@ function activate(context) {
         }
     }));
     // Initial check for active editor
-    if (vscode.window.activeTextEditor?.document.languageId === 'banglascript') {
-        runDiagnostics(vscode.window.activeTextEditor.document);
+    if (vscode.window.activeTextEditor) {
+        updateStatusBarItem(vscode.window.activeTextEditor);
+        if (vscode.window.activeTextEditor.document.languageId === 'banglascript') {
+            runDiagnostics(vscode.window.activeTextEditor.document);
+        }
+    }
+}
+function updateStatusBarItem(editor) {
+    if (editor && (editor.document.languageId === 'banglascript' || editor.document.fileName.endsWith('.bs'))) {
+        runStatusBarItem.show();
+    }
+    else {
+        runStatusBarItem.hide();
     }
 }
 function getExecutablePath() {
     const config = vscode.workspace.getConfiguration('banglascript');
-    return config.get('executablePath', 'banglascript');
+    const customPath = config.get('executablePath', 'banglascript');
+    if (customPath && customPath !== 'banglascript' && fs.existsSync(customPath)) {
+        return customPath;
+    }
+    // Auto-detect binary in current workspace build/bin/
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+    if (workspaceFolders) {
+        for (const folder of workspaceFolders) {
+            const isWin = process.platform === 'win32';
+            const exeName = isWin ? 'banglascript.exe' : 'banglascript';
+            const candidate = path.join(folder.uri.fsPath, 'build', 'bin', exeName);
+            if (fs.existsSync(candidate)) {
+                return candidate;
+            }
+        }
+    }
+    return customPath || 'banglascript';
 }
 function runCurrentFile(context) {
     const editor = vscode.window.activeTextEditor;
@@ -40,7 +80,10 @@ function runCurrentFile(context) {
     const terminal = vscode.window.terminals.find(t => t.name === 'BanglaScript') ||
         vscode.window.createTerminal('BanglaScript');
     terminal.show();
-    terminal.sendText(`${exe} run "${filePath}"`);
+    // Use PowerShell call operator & on Windows, or direct execution on Unix
+    const isWin = process.platform === 'win32';
+    const command = isWin ? `& "${exe}" run "${filePath}"` : `"${exe}" run "${filePath}"`;
+    terminal.sendText(command);
 }
 function checkCurrentFile(context) {
     const editor = vscode.window.activeTextEditor;
@@ -57,7 +100,9 @@ function compileCurrentFile(context) {
     const terminal = vscode.window.terminals.find(t => t.name === 'BanglaScript') ||
         vscode.window.createTerminal('BanglaScript');
     terminal.show();
-    terminal.sendText(`${exe} compile "${filePath}"`);
+    const isWin = process.platform === 'win32';
+    const command = isWin ? `& "${exe}" compile "${filePath}"` : `"${exe}" compile "${filePath}"`;
+    terminal.sendText(command);
 }
 function showAST(context) {
     const editor = vscode.window.activeTextEditor;
