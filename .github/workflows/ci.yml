@@ -19,7 +19,7 @@ jobs:
           sudo apt-get install -y cmake flex bison clang
 
       - name: Configure CMake
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
 
       - name: Build BanglaScript
         run: cmake --build build

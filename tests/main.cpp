@@ -1,16 +1,23 @@
 #include <iostream>
 #include <string>
-#include <cassert>
+#include <cstdlib>
 #include "parser/Driver.hpp"
 #include "semantic/TypeChecker.hpp"
 #include "ir/TACGenerator.hpp"
 #include "optimizer/Optimizer.hpp"
 #include "VirtualMachine.hpp"
 
+#define BS_TEST_ASSERT(expr) do { \
+    if (!(expr)) { \
+        std::cerr << "\n\033[1;31m[TEST FAILURE] Assertion failed: " #expr " at " << __FILE__ << ":" << __LINE__ << "\033[0m" << std::endl; \
+        std::exit(1); \
+    } \
+} while(0)
+
 using namespace banglascript;
 
 void test_basic_arithmetic_and_vm() {
-    std::cout << "[TEST] Running Basic Arithmetic & VM Execution... ";
+    std::cout << "[TEST] Running Basic Arithmetic & VM Execution... " << std::flush;
     std::string code = R"(
         sonkha a = 15;
         sonkha b = 25;
@@ -20,27 +27,27 @@ void test_basic_arithmetic_and_vm() {
 
     DiagnosticsEngine diag;
     Driver driver(diag);
-    assert(driver.parseString(code, "test_arith.bs"));
-    assert(!diag.hasErrors());
+    BS_TEST_ASSERT(driver.parseString(code, "test_arith.bs"));
+    BS_TEST_ASSERT(!diag.hasErrors());
 
     TypeChecker tc(diag);
-    assert(tc.check(*driver.getAST()));
-    assert(!diag.hasErrors());
+    BS_TEST_ASSERT(tc.check(*driver.getAST()));
+    BS_TEST_ASSERT(!diag.hasErrors());
 
     TACGenerator tacGen;
     TACProgram tac = tacGen.generate(*driver.getAST());
-    assert(!tac.empty());
+    BS_TEST_ASSERT(!tac.empty());
 
     std::ostringstream out;
     VirtualMachine vm(std::cin, out, std::cerr);
     int exitCode = vm.execute(tac);
-    assert(exitCode == 0);
-    assert(out.str() == "65\n");
-    std::cout << "PASSED\n";
+    BS_TEST_ASSERT(exitCode == 0);
+    BS_TEST_ASSERT(out.str() == "65\n");
+    std::cout << "PASSED" << std::endl;
 }
 
 void test_control_flow_and_loops() {
-    std::cout << "[TEST] Running Control Flow & While Loop... ";
+    std::cout << "[TEST] Running Control Flow & While Loop... " << std::flush;
     std::string code = R"(
         sonkha sum = 0;
         sonkha i = 1;
@@ -53,10 +60,10 @@ void test_control_flow_and_loops() {
 
     DiagnosticsEngine diag;
     Driver driver(diag);
-    assert(driver.parseString(code, "test_loop.bs"));
+    BS_TEST_ASSERT(driver.parseString(code, "test_loop.bs"));
 
     TypeChecker tc(diag);
-    assert(tc.check(*driver.getAST()));
+    BS_TEST_ASSERT(tc.check(*driver.getAST()));
 
     TACGenerator tacGen;
     TACProgram tac = tacGen.generate(*driver.getAST());
@@ -64,13 +71,13 @@ void test_control_flow_and_loops() {
     std::ostringstream out;
     VirtualMachine vm(std::cin, out, std::cerr);
     int exitCode = vm.execute(tac);
-    assert(exitCode == 0);
-    assert(out.str() == "15\n"); // 1+2+3+4+5 = 15
-    std::cout << "PASSED\n";
+    BS_TEST_ASSERT(exitCode == 0);
+    BS_TEST_ASSERT(out.str() == "15\n"); // 1+2+3+4+5 = 15
+    std::cout << "PASSED" << std::endl;
 }
 
 void test_functions_and_recursion() {
-    std::cout << "[TEST] Running Recursive Factorial Function... ";
+    std::cout << "[TEST] Running Recursive Factorial Function... " << std::flush;
     std::string code = R"(
         kaj fact(sonkha n) {
             jodi (n <= 1) {
@@ -85,10 +92,10 @@ void test_functions_and_recursion() {
 
     DiagnosticsEngine diag;
     Driver driver(diag);
-    assert(driver.parseString(code, "test_recursion.bs"));
+    BS_TEST_ASSERT(driver.parseString(code, "test_recursion.bs"));
 
     TypeChecker tc(diag);
-    assert(tc.check(*driver.getAST()));
+    BS_TEST_ASSERT(tc.check(*driver.getAST()));
 
     TACGenerator tacGen;
     TACProgram tac = tacGen.generate(*driver.getAST());
@@ -96,13 +103,13 @@ void test_functions_and_recursion() {
     std::ostringstream out;
     VirtualMachine vm(std::cin, out, std::cerr);
     int exitCode = vm.execute(tac);
-    assert(exitCode == 0);
-    assert(out.str() == "120\n"); // 5! = 120
-    std::cout << "PASSED\n";
+    BS_TEST_ASSERT(exitCode == 0);
+    BS_TEST_ASSERT(out.str() == "120\n"); // 5! = 120
+    std::cout << "PASSED" << std::endl;
 }
 
 void test_bengali_unicode_keywords() {
-    std::cout << "[TEST] Running Native Bengali Script Keywords... ";
+    std::cout << "[TEST] Running Native Bengali Script Keywords... " << std::flush;
     std::string code = R"(
         সংখ্যা ক = ১০;
         সংখ্যা খ = ২০;
@@ -113,10 +120,10 @@ void test_bengali_unicode_keywords() {
 
     DiagnosticsEngine diag;
     Driver driver(diag);
-    assert(driver.parseString(code, "test_bengali.bs"));
+    BS_TEST_ASSERT(driver.parseString(code, "test_bengali.bs"));
 
     TypeChecker tc(diag);
-    assert(tc.check(*driver.getAST()));
+    BS_TEST_ASSERT(tc.check(*driver.getAST()));
 
     TACGenerator tacGen;
     TACProgram tac = tacGen.generate(*driver.getAST());
@@ -124,23 +131,23 @@ void test_bengali_unicode_keywords() {
     std::ostringstream out;
     VirtualMachine vm(std::cin, out, std::cerr);
     int exitCode = vm.execute(tac);
-    assert(exitCode == 0);
-    assert(out.str() == "সফল!\n");
-    std::cout << "PASSED\n";
+    BS_TEST_ASSERT(exitCode == 0);
+    BS_TEST_ASSERT(out.str() == "সফল!\n");
+    std::cout << "PASSED" << std::endl;
 }
 
 void test_semantic_errors_detection() {
-    std::cout << "[TEST] Running Semantic Error Diagnostics... ";
+    std::cout << "[TEST] Running Semantic Error Diagnostics... " << std::flush;
     // 1. Undeclared variable
     {
         std::string badCode = "dekhao(undeclaredVar);";
         DiagnosticsEngine diag;
         Driver driver(diag);
-        assert(driver.parseString(badCode));
+        BS_TEST_ASSERT(driver.parseString(badCode));
         TypeChecker tc(diag);
         bool ok = tc.check(*driver.getAST());
-        assert(!ok);
-        assert(diag.hasErrors());
+        BS_TEST_ASSERT(!ok);
+        BS_TEST_ASSERT(diag.hasErrors());
     }
 
     // 2. Type mismatch: assigning string to int
@@ -148,11 +155,11 @@ void test_semantic_errors_detection() {
         std::string badCode = "sonkha x = \"invalid\";";
         DiagnosticsEngine diag;
         Driver driver(diag);
-        assert(driver.parseString(badCode));
+        BS_TEST_ASSERT(driver.parseString(badCode));
         TypeChecker tc(diag);
         bool ok = tc.check(*driver.getAST());
-        assert(!ok);
-        assert(diag.hasErrors());
+        BS_TEST_ASSERT(!ok);
+        BS_TEST_ASSERT(diag.hasErrors());
     }
 
     // 3. Duplicate variable in same scope
@@ -160,23 +167,23 @@ void test_semantic_errors_detection() {
         std::string badCode = "sonkha x = 1; sonkha x = 2;";
         DiagnosticsEngine diag;
         Driver driver(diag);
-        assert(driver.parseString(badCode));
+        BS_TEST_ASSERT(driver.parseString(badCode));
         TypeChecker tc(diag);
         bool ok = tc.check(*driver.getAST());
-        assert(!ok);
-        assert(diag.hasErrors());
+        BS_TEST_ASSERT(!ok);
+        BS_TEST_ASSERT(diag.hasErrors());
     }
-    std::cout << "PASSED\n";
+    std::cout << "PASSED" << std::endl;
 }
 
 void test_optimizer_constant_folding() {
-    std::cout << "[TEST] Running TAC Optimizer (Constant Folding)... ";
+    std::cout << "[TEST] Running TAC Optimizer (Constant Folding)... " << std::flush;
     std::string code = "sonkha x = 10 + 20 * 3;";
     DiagnosticsEngine diag;
     Driver driver(diag);
-    assert(driver.parseString(code));
+    BS_TEST_ASSERT(driver.parseString(code));
     TypeChecker tc(diag);
-    assert(tc.check(*driver.getAST()));
+    BS_TEST_ASSERT(tc.check(*driver.getAST()));
 
     TACGenerator tacGen;
     TACProgram rawTac = tacGen.generate(*driver.getAST());
@@ -192,8 +199,8 @@ void test_optimizer_constant_folding() {
             break;
         }
     }
-    assert(found70);
-    std::cout << "PASSED\n";
+    BS_TEST_ASSERT(found70);
+    std::cout << "PASSED" << std::endl;
 }
 
 int main() {
