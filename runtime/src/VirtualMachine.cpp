@@ -32,7 +32,7 @@ RuntimeValue VirtualMachine::parseLiteral(const std::string& token) {
             if (hasDot) {
                 return RuntimeValue(std::stod(token));
             } else {
-                return RuntimeValue(std::stoll(token));
+                return RuntimeValue(static_cast<int64_t>(std::stoll(token)));
             }
         } catch (...) {
             // fallback
