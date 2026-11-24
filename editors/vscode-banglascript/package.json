@@ -22,9 +22,6 @@
     "nexora",
     "bs"
   ],
-  "activationEvents": [
-    "onLanguage:banglascript"
-  ],
   "main": "./out/extension.js",
   "contributes": {
     "languages": [
