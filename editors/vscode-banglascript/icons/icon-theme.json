@@ -1,0 +1,25 @@
+{
+  "iconDefinitions": {
+    "_file": {
+      "iconPath": "./file.svg"
+    },
+    "_folder": {
+      "iconPath": "./folder.svg"
+    },
+    "_folder_expanded": {
+      "iconPath": "./folder-open.svg"
+    },
+    "_bs": {
+      "iconPath": "./bs.svg"
+    }
+  },
+  "file": "_file",
+  "folder": "_folder",
+  "folderExpanded": "_folder_expanded",
+  "fileExtensions": {
+    "bs": "_bs"
+  },
+  "languageIds": {
+    "banglascript": "_bs"
+  }
+}

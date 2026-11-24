@@ -4,6 +4,7 @@
   "description": "Rich language support, syntax highlighting, snippets, and execution for BanglaScript (.bs)",
   "version": "1.0.0",
   "publisher": "nexora",
+  "icon": "icons/icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/ahabibCoder/nexora-banglascript"
@@ -35,7 +36,11 @@
         "extensions": [
           ".bs"
         ],
-        "configuration": "./language-configuration.json"
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/bs.svg",
+          "dark": "./icons/bs.svg"
+        }
       }
     ],
     "grammars": [
@@ -49,6 +54,13 @@
       {
         "language": "banglascript",
         "path": "./snippets/banglascript.snippets.json"
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "banglascript-icons",
+        "label": "BanglaScript (Yellow BS Icon)",
+        "path": "./icons/icon-theme.json"
       }
     ],
     "commands": [
