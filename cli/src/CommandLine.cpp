@@ -44,6 +44,7 @@ void CommandLine::printHelp() {
               << "  ast <file.bs>          Display Abstract Syntax Tree (AST)\n"
               << "  tac <file.bs>          Display Three-Address Code (TAC) intermediate representation\n"
               << "  repl                   Start interactive multiline REPL session\n"
+              << "  ide, gui               Launch NEXORA Desktop IDE with real-time output panel\n"
               << "  init <project-name>    Scaffold a new BanglaScript project structure\n"
               << "  doctor                 Inspect environment, runtime health, and tooling\n"
               << "  version, --version     Display compiler and runtime version\n"
@@ -317,6 +318,15 @@ int CommandLine::run(int argc, char* argv[]) {
 
     if (cmd == "repl") {
         REPL::start();
+        return 0;
+    }
+
+    if (cmd == "ide" || cmd == "gui") {
+        std::cout << "\033[1;36mLaunching NEXORA Desktop IDE...\033[0m\n";
+        int ret = system("python ide/nexora_ide.py");
+        if (ret != 0) {
+            system("python C:\\Users\\Admin\\.gemini\\antigravity\\scratch\\nexora\\ide\\nexora_ide.py");
+        }
         return 0;
     }
 
