@@ -1,0 +1,45 @@
+%YAML 1.2
+---
+name: BanglaScript
+file_extensions:
+  - bs
+scope: source.banglascript
+
+contexts:
+  main:
+    - match: //.*$
+      scope: comment.line.double-slash.banglascript
+    - match: /\*
+      scope: comment.block.banglascript
+      push: block_comment
+    - match: '"'
+      scope: punctuation.definition.string.begin.banglascript
+      push: string
+    - match: '\b(sonkha|dosomik|bakya|sotti|shunno|সংখ্যা|দশমিক|বাক্য|সত্যি|শূন্য)\b'
+      scope: storage.type.banglascript
+    - match: '\b(jodi|nahole|jotokhon|bondho|chaliyejao|kaj|ferot|যদি|নাহলে|যতক্ষণ|বন্ধ|চালিয়েযাও|কাজ|ফেরত)\b'
+      scope: keyword.control.banglascript
+    - match: '\b(dekhao|nao|দেখাও|নাও)\b'
+      scope: support.function.builtin.banglascript
+    - match: '\b(true|false|ebong|othoba|na)\b'
+      scope: constant.language.banglascript
+    - match: '\b\d+(\.\d+)?\b|[০-৯]+(\.[০-৯]+)?'
+      scope: constant.numeric.banglascript
+    - match: '(\+|\-|\*|\/|%|==|!=|<=|>=|<|>|=|&&|\|\||!)'
+      scope: keyword.operator.banglascript
+
+  block_comment:
+    - match: \*/
+      scope: comment.block.banglascript
+      pop: true
+    - match: .
+      scope: comment.block.banglascript
+
+  string:
+    - match: '"'
+      scope: punctuation.definition.string.end.banglascript
+      pop: true
+    - match: '\\.'
+      scope: constant.character.escape.banglascript
+    - match: '[^"\\]+'
+      scope: string.quoted.double.banglascript

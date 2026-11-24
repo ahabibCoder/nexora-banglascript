@@ -28,6 +28,19 @@ Write-Host "   BanglaScript Installation Verified Successfully!     " -Foregroun
 Write-Host "========================================================`n" -ForegroundColor Green
 
 & (Join-Path $binDir "banglascript.exe") --version
+
+# Automatically install VS Code extension if VS Code CLI is available
+$vsixPath = Join-Path $projectRoot "editors\vscode-banglascript\banglascript-language-support-1.0.0.vsix"
+if ((Get-Command "code" -ErrorAction SilentlyContinue) -and (Test-Path $vsixPath)) {
+    Write-Host "`n[INFO] Detected VS Code. Installing BanglaScript extension..." -ForegroundColor Cyan
+    try {
+        & code --install-extension $vsixPath --force
+        Write-Host "[SUCCESS] VS Code extension installed successfully!" -ForegroundColor Green
+    } catch {
+        Write-Host "[NOTE] To install VS Code extension manually, run: code --install-extension $vsixPath" -ForegroundColor Yellow
+    }
+}
+
 Write-Host "`nYou can now open any terminal and run:" -ForegroundColor Cyan
 Write-Host "  banglascript --help" -ForegroundColor White
 Write-Host "  bs repl" -ForegroundColor White

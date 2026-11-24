@@ -128,20 +128,57 @@ bs> .exit
 
 ---
 
-## 🧩 Visual Studio Code Extension
+## 🧩 Visual Studio Code & Multi-IDE Support
 
-A full-featured extension is included in `editors/vscode-banglascript/`.
+BanglaScript is designed to work in any code editor or IDE of your choice:
 
-### Install Extension:
+### 1. Visual Studio Code / Cursor / Windsurf
+A full-featured extension is pre-packaged in `editors/vscode-banglascript/`.
+
+**CLI Install:**
 ```bash
 code --install-extension editors/vscode-banglascript/banglascript-language-support-1.0.0.vsix
 ```
 
-### Features:
-- **Syntax Highlighting:** TextMate grammar for all types, keywords, and Bengali script.
-- **Live Diagnostics:** Errors and warnings shown with line/col squiggles on save.
-- **Run Button:** Direct execution inside the integrated terminal.
+**Manual Install in VS Code:**
+1. Open Extensions (`Ctrl+Shift+X`).
+2. Click the `...` menu at top right and choose **Install from VSIX...**
+3. Select `editors/vscode-banglascript/banglascript-language-support-1.0.0.vsix`.
+
+**Features:**
+- **Syntax Highlighting:** TextMate grammar for types, keywords, and Bengali script.
+- **Live Diagnostics:** Errors and warnings shown with squiggles on save.
+- **Run Button:** Direct execution inside integrated terminal.
 - **AST & TAC Visualizer:** Inspect generated AST and TAC in split webview panes.
+- **Snippets:** Built-in code templates for quick scaffolding.
+
+### 2. Built-in NEXORA Graphical IDE
+For quick editing without installing external editors:
+```bash
+# Windows double-click:
+Launch_NEXORA_IDE.bat
+
+# Or run directly via Python:
+python ide/nexora_ide.py
+```
+
+### 3. JetBrains IDEs (CLion, IntelliJ IDEA, PyCharm, WebStorm)
+1. Go to `Settings -> Editor -> TextMate Bundles`.
+2. Click `+` and add the `editors/vscode-banglascript` folder.
+3. Open any `.bs` file with full syntax highlighting.
+
+### 4. Sublime Text
+Copy `editors/sublime-text/BanglaScript.sublime-syntax` into your Sublime Text `Packages/BanglaScript/` directory.
+
+### 5. Vim / Neovim
+Copy syntax and filetype detection files:
+```bash
+cp editors/vim/syntax/banglascript.vim ~/.vim/syntax/
+cp editors/vim/ftdetect/banglascript.vim ~/.vim/ftdetect/
+```
+
+### 6. Notepad++
+Import `editors/notepadplusplus/banglascript.xml` via **Language -> User Defined Language -> Define your language... -> Import**.
 
 ---
 
@@ -173,7 +210,7 @@ Output:
 
 ## 📚 Documentation
 
-- [Language Specification](file:///C:/Users/Admin/.gemini/antigravity/scratch/nexora/docs/LANGUAGE_SPEC.md)
-- [CLI Reference Guide](file:///C:/Users/Admin/.gemini/antigravity/scratch/nexora/docs/CLI_GUIDE.md)
-- [Virtual Machine Architecture](file:///C:/Users/Admin/.gemini/antigravity/scratch/nexora/docs/VM_DESIGN.md)
-- [University Project Report](file:///C:/Users/Admin/.gemini/antigravity/scratch/nexora/docs/UNIVERSITY_PROJECT_REPORT.md)
+- [Language Specification](docs/LANGUAGE_SPEC.md)
+- [CLI Reference Guide](docs/CLI_GUIDE.md)
+- [Virtual Machine Architecture](docs/VM_DESIGN.md)
+- [University Project Report](docs/UNIVERSITY_PROJECT_REPORT.md)

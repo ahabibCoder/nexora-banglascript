@@ -12,7 +12,7 @@ lib/
 # Executables
 *.exe
 
-# VS Code extension node_modules
+# VS Code extension dependencies & test
 editors/vscode-banglascript/node_modules/
 editors/vscode-banglascript/.vscode-test/
 
@@ -20,6 +20,14 @@ editors/vscode-banglascript/.vscode-test/
 __pycache__/
 *.pyc
 
-# OS artifacts
+# OS & Environment artifacts
 .DS_Store
 Thumbs.db
+.env
+.env.*
+*.key
+*.token
+*.secret
+*.log
+.vscode/
+.idea/

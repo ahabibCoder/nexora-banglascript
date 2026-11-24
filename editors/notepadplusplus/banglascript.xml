@@ -1,0 +1,17 @@
+<NotepadPlus>
+    <UserLang name="BanglaScript" ext="bs">
+        <Settings>
+            <GlobalCaseIgnored>no</GlobalCaseIgnored>
+        </Settings>
+        <KeywordLists>
+            <Keywords name="Folder+"></Keywords>
+            <Keywords name="Folder-"></Keywords>
+            <Keywords name="Operators">- + * / % = == != &lt; &gt; &lt;= &gt;= ! &amp;&amp; ||</Keywords>
+            <Keywords name="Comment">1/* 2*/ 0//</Keywords>
+            <Keywords name="Words1">sonkha dosomik bakya sotti shunno সংখ্যা দশমিক বাক্য সত্যি শূন্য</Keywords>
+            <Keywords name="Words2">jodi nahole jotokhon bondho chaliyejao kaj ferot যদি নাহলে যতক্ষণ বন্ধ চালিয়েযাও কাজ ফেরত</Keywords>
+            <Keywords name="Words3">dekhao nao দেখাও নাও</Keywords>
+            <Keywords name="Words4">true false</Keywords>
+        </KeywordLists>
+    </UserLang>
+</NotepadPlus>

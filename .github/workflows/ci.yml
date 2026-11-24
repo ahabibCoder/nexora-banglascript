@@ -1,0 +1,39 @@
+name: CI Build & Test
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake flex bison clang
+
+      - name: Configure CMake
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build BanglaScript
+        run: cmake --build build
+
+      - name: Run Automated Compiler Tests
+        run: ./build/bin/banglascript_tests
+
+      - name: Setup Node.js for VS Code Extension
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Compile VS Code Extension
+        run: |
+          cd editors/vscode-banglascript
+          npm ci
+          npm run compile

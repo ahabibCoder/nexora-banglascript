@@ -18,6 +18,20 @@ Official Visual Studio Code extension for the **BanglaScript** programming langu
 - `BanglaScript: Show Abstract Syntax Tree (AST)`
 - `BanglaScript: Show Three-Address Code (TAC)`
 
+## Installation
+
+### Option 1: Command Line (Fastest)
+```bash
+code --install-extension banglascript-language-support-1.0.0.vsix
+```
+
+### Option 2: Within VS Code UI
+1. Open Visual Studio Code.
+2. Press `Ctrl+Shift+X` (or `Cmd+Shift+X` on macOS) to open the Extensions tab.
+3. Click the `...` menu (top right of Extensions view) and select **Install from VSIX...**
+4. Select `banglascript-language-support-1.0.0.vsix` from this repository.
+5. Reload VS Code or open any `.bs` file!
+
 ## Requirements
 
-Install the BanglaScript CLI on your machine and ensure `banglascript` is in your `PATH`.
+Install the BanglaScript CLI on your machine and ensure `banglascript` (or `bs`) is in your `PATH`.
