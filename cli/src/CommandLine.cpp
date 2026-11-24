@@ -323,9 +323,22 @@ int CommandLine::run(int argc, char* argv[]) {
 
     if (cmd == "ide" || cmd == "gui") {
         std::cout << "\033[1;36mLaunching NEXORA Desktop IDE...\033[0m\n";
-        int ret = system("python ide/nexora_ide.py");
-        if (ret != 0) {
-            system("python C:\\Users\\Admin\\.gemini\\antigravity\\scratch\\nexora\\ide\\nexora_ide.py");
+        std::vector<std::string> candidatePaths = {
+            "ide/nexora_ide.py",
+            "C:\\Users\\Admin\\.gemini\\antigravity\\scratch\\nexora\\ide\\nexora_ide.py"
+        };
+        std::string scriptPath;
+        for (const auto& p : candidatePaths) {
+            if (fs::exists(p)) {
+                scriptPath = p;
+                break;
+            }
+        }
+        if (!scriptPath.empty()) {
+            std::string runCmd = "python \"" + scriptPath + "\"";
+            system(runCmd.c_str());
+        } else {
+            std::cerr << "\033[1;31mError: Could not locate ide/nexora_ide.py\033[0m\n";
         }
         return 0;
     }

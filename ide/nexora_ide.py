@@ -117,7 +117,7 @@ class NexoraIDE:
     def __init__(self, root):
         self.root = root
         self.root.title("NEXORA IDE — BanglaScript Programming Language")
-        self.root.geometry("1100, 750")
+        self.root.geometry("1100x750")
         self.root.minsize(800, 600)
 
         # Find executable path
