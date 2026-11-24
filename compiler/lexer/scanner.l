@@ -27,9 +27,9 @@ static int64_t parse_bengali_or_ascii_int(const char* text) {
 }
 
 #define YY_USER_ACTION \
-    yylloc->first_line = yylloc->last_line = yylineno; \
-    yylloc->first_column = yycolumn; \
-    yylloc->last_column = yycolumn + (int)yyleng - 1; \
+    yylloc_param->first_line = yylloc_param->last_line = yylineno; \
+    yylloc_param->first_column = yycolumn; \
+    yylloc_param->last_column = yycolumn + (int)yyleng - 1; \
     yycolumn += (int)yyleng;
 
 static char* unescape_string(const char* text, int len) {

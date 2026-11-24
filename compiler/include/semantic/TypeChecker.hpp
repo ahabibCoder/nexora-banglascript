@@ -38,6 +38,7 @@ public:
     void visit(UnaryExpr& node) override;
     void visit(CallExpr& node) override;
     void visit(AssignExpr& node) override;
+    void visit(InputExpr& node) override;
 
 private:
     DiagnosticsEngine& diagnostics_;

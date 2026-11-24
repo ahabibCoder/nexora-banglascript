@@ -1,0 +1,95 @@
+kaj isPrime(sonkha n) {
+    jodi (n <= 1) {
+        ferot false;
+    }
+
+    sonkha i = 2;
+
+    jotokhon (i * i <= n) {
+        jodi (n % i == 0) {
+            ferot false;
+        }
+
+        i = i + 1;
+    }
+
+    ferot true;
+}
+
+
+kaj fibonacci(sonkha n) {
+    jodi (n <= 0) {
+        ferot 0;
+    }
+
+    jodi (n == 1) {
+        ferot 1;
+    }
+
+    ferot fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+
+kaj countPrimes(sonkha limit) {
+    sonkha count = 0;
+    sonkha number = 2;
+
+    jotokhon (number <= limit) {
+
+        jodi (isPrime(number)) {
+            count = count + 1;
+        }
+
+        number = number + 1;
+    }
+
+    ferot count;
+}
+
+
+kaj analyze(sonkha limit) {
+
+    dekhao("========== BANGLASCRIPT ANALYZER ==========");
+
+    dekhao("Prime Numbers:");
+
+    sonkha number = 2;
+
+    jotokhon (number <= limit) {
+
+        jodi (isPrime(number)) {
+            dekhao(number);
+        }
+
+        number = number + 1;
+    }
+
+    dekhao("==========================================");
+
+    dekhao("Prime Count:");
+    dekhao(countPrimes(limit));
+
+    dekhao("==========================================");
+
+    dekhao("Fibonacci Sequence:");
+
+    sonkha i = 0;
+
+    jotokhon (i < 10) {
+        dekhao(fibonacci(i));
+        i = i + 1;
+    }
+
+    dekhao("==========================================");
+}
+
+
+dekhao("Enter upper limit:");
+
+sonkha max = nao();
+
+jodi (max < 2) {
+    dekhao("Invalid input!");
+} nahole {
+    analyze(max);
+}

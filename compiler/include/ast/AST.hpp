@@ -30,7 +30,8 @@ enum class ASTNodeType {
     BinaryExpr,
     UnaryExpr,
     CallExpr,
-    AssignExpr
+    AssignExpr,
+    InputExpr
 };
 
 class ASTNode {

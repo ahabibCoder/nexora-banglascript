@@ -244,4 +244,14 @@ void ASTPrettyPrinter::visit(AssignExpr& node) {
     popIndent();
 }
 
+void ASTPrettyPrinter::visit(InputExpr& node) {
+    out_ << "InputExpr (nao)\n";
+    if (node.hasPrompt()) {
+        printIndent(true);
+        pushIndent(true);
+        node.getPrompt()->accept(*this);
+        popIndent();
+    }
+}
+
 } // namespace banglascript

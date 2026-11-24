@@ -244,4 +244,14 @@ void TACGenerator::visit(AssignExpr& node) {
     lastResult_ = node.getTarget();
 }
 
+void TACGenerator::visit(InputExpr& node) {
+    if (node.hasPrompt()) {
+        node.getPrompt()->accept(*this);
+        emit(Opcode::Print, lastResult_);
+    }
+    std::string temp = newTemp();
+    emit(Opcode::Input, "", "", temp, node.getInferredType());
+    lastResult_ = temp;
+}
+
 } // namespace banglascript

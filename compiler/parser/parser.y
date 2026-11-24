@@ -164,7 +164,7 @@ function_decl
           std::string name($2);
           free($2);
           auto body = std::unique_ptr<banglascript::BlockStmt>(static_cast<banglascript::BlockStmt*>($6));
-          auto fn = new banglascript::FunctionDecl(banglascript::DataType::Sonkha, name, *$4, std::move(body));
+          auto fn = new banglascript::FunctionDecl(banglascript::DataType::Unknown, name, *$4, std::move(body));
           delete $4;
           $$ = fn;
       }
@@ -410,6 +410,14 @@ expression
     | TOKEN_FALSE
       {
           $$ = new banglascript::LiteralExpr(false, banglascript::DataType::Sotti);
+      }
+    | TOKEN_NAO TOKEN_LPAREN TOKEN_RPAREN
+      {
+          $$ = new banglascript::InputExpr();
+      }
+    | TOKEN_NAO TOKEN_LPAREN expression TOKEN_RPAREN
+      {
+          $$ = new banglascript::InputExpr(banglascript::ExprPtr($3));
       }
     ;
 

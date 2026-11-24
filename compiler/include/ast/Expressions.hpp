@@ -164,4 +164,20 @@ private:
     ExprPtr value_;
 };
 
+class InputExpr : public ExpressionNode {
+public:
+    explicit InputExpr(ExprPtr prompt = nullptr, SourceSpan span = SourceSpan())
+        : ExpressionNode(ASTNodeType::InputExpr, std::move(span)), prompt_(std::move(prompt)) {
+        setInferredType(DataType::Sonkha);
+    }
+
+    ExpressionNode* getPrompt() const { return prompt_.get(); }
+    bool hasPrompt() const { return prompt_ != nullptr; }
+
+    void accept(ASTVisitor& visitor) override;
+
+private:
+    ExprPtr prompt_;
+};
+
 } // namespace banglascript

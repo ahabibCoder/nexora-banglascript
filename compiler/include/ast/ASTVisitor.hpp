@@ -22,6 +22,7 @@ class BinaryExpr;
 class UnaryExpr;
 class CallExpr;
 class AssignExpr;
+class InputExpr;
 
 class ASTVisitor {
 public:
@@ -45,6 +46,7 @@ public:
     virtual void visit(UnaryExpr& node) = 0;
     virtual void visit(CallExpr& node) = 0;
     virtual void visit(AssignExpr& node) = 0;
+    virtual void visit(InputExpr& node) = 0;
 };
 
 } // namespace banglascript

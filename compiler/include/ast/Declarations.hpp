@@ -24,6 +24,7 @@ public:
           parameters_(std::move(params)), body_(std::move(body)) {}
 
     DataType getReturnType() const { return returnType_; }
+    void setReturnType(DataType t) { returnType_ = t; }
     const std::string& getName() const { return name_; }
     const std::vector<Parameter>& getParameters() const { return parameters_; }
     BlockStmt* getBody() const { return body_.get(); }

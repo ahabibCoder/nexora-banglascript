@@ -26,8 +26,94 @@ DataType TypeChecker::resolveNumericType(DataType left, DataType right) {
     return DataType::Sonkha;
 }
 
+static DataType inferExprType(ExpressionNode* expr, const std::unordered_map<std::string, DataType>& localTypes) {
+    if (!expr) return DataType::Shunno;
+    if (expr->getNodeType() == ASTNodeType::LiteralExpr) {
+        return expr->getInferredType();
+    }
+    if (expr->getNodeType() == ASTNodeType::BinaryExpr) {
+        auto bin = static_cast<BinaryExpr*>(expr);
+        switch (bin->getOp()) {
+            case BinaryOp::Equal:
+            case BinaryOp::NotEqual:
+            case BinaryOp::Less:
+            case BinaryOp::LessEq:
+            case BinaryOp::Greater:
+            case BinaryOp::GreaterEq:
+            case BinaryOp::LogicalAnd:
+            case BinaryOp::LogicalOr:
+                return DataType::Sotti;
+            case BinaryOp::Add:
+            case BinaryOp::Subtract:
+            case BinaryOp::Multiply:
+            case BinaryOp::Divide:
+            case BinaryOp::Modulo:
+                return DataType::Sonkha;
+        }
+    }
+    if (expr->getNodeType() == ASTNodeType::UnaryExpr) {
+        auto un = static_cast<UnaryExpr*>(expr);
+        if (un->getOp() == UnaryOp::LogicalNot) return DataType::Sotti;
+        return DataType::Sonkha;
+    }
+    if (expr->getNodeType() == ASTNodeType::VariableExpr) {
+        auto var = static_cast<VariableExpr*>(expr);
+        auto it = localTypes.find(var->getName());
+        if (it != localTypes.end()) return it->second;
+    }
+    return DataType::Sonkha;
+}
+
+static DataType inferReturnType(StatementNode* stmt, std::unordered_map<std::string, DataType>& localTypes) {
+    if (!stmt) return DataType::Unknown;
+    if (stmt->getNodeType() == ASTNodeType::VarDecl) {
+        auto vd = static_cast<VarDeclStmt*>(stmt);
+        localTypes[vd->getName()] = vd->getVarType();
+        return DataType::Unknown;
+    }
+    if (stmt->getNodeType() == ASTNodeType::ReturnStmt) {
+        auto ret = static_cast<ReturnStmt*>(stmt);
+        if (!ret->hasValue()) return DataType::Shunno;
+        return inferExprType(ret->getValue(), localTypes);
+    }
+    if (stmt->getNodeType() == ASTNodeType::BlockStmt) {
+        auto blk = static_cast<BlockStmt*>(stmt);
+        for (const auto& s : blk->getStatements()) {
+            DataType t = inferReturnType(s.get(), localTypes);
+            if (t != DataType::Unknown) return t;
+        }
+    }
+    if (stmt->getNodeType() == ASTNodeType::IfStmt) {
+        auto ifs = static_cast<IfStmt*>(stmt);
+        DataType t = inferReturnType(ifs->getThenBranch(), localTypes);
+        if (t != DataType::Unknown) return t;
+        if (ifs->hasElseBranch()) {
+            t = inferReturnType(ifs->getElseBranch(), localTypes);
+            if (t != DataType::Unknown) return t;
+        }
+    }
+    if (stmt->getNodeType() == ASTNodeType::WhileStmt) {
+        auto ws = static_cast<WhileStmt*>(stmt);
+        return inferReturnType(ws->getBody(), localTypes);
+    }
+    return DataType::Unknown;
+}
+
 void TypeChecker::visit(Program& node) {
-    // Pass 1: Register function signatures in global scope
+    // Pass 1: Infer return types for unannotated functions
+    for (const auto& fn : node.getFunctions()) {
+        if (fn->getReturnType() == DataType::Unknown) {
+            std::unordered_map<std::string, DataType> localTypes;
+            for (const auto& p : fn->getParameters()) {
+                localTypes[p.name] = p.type;
+            }
+            DataType inferred = inferReturnType(fn->getBody(), localTypes);
+            if (inferred == DataType::Unknown) inferred = DataType::Shunno;
+            fn->setReturnType(inferred);
+        }
+    }
+
+    // Pass 2: Register function signatures in global scope
     for (const auto& fn : node.getFunctions()) {
         auto existing = symbolTable_.lookupCurrentScope(fn->getName());
         if (existing.has_value()) {
@@ -43,12 +129,12 @@ void TypeChecker::visit(Program& node) {
         symbolTable_.insert(fnSym);
     }
 
-    // Pass 2: Check function bodies
+    // Pass 3: Check function bodies
     for (const auto& fn : node.getFunctions()) {
         fn->accept(*this);
     }
 
-    // Pass 3: Check global top-level statements
+    // Pass 4: Check global top-level statements
     for (const auto& stmt : node.getStatements()) {
         stmt->accept(*this);
     }
@@ -92,6 +178,10 @@ void TypeChecker::visit(VarDeclStmt& node) {
     if (node.hasInitializer()) {
         node.getInitializer()->accept(*this);
         DataType initType = node.getInitializer()->getInferredType();
+        if (node.getInitializer()->getNodeType() == ASTNodeType::InputExpr) {
+            node.getInitializer()->setInferredType(node.getVarType());
+            initType = node.getVarType();
+        }
         if (!typesCompatible(node.getVarType(), initType)) {
             diagnostics_.error(node.getSpan(),
                 "Cannot initialize variable '" + node.getName() + "' of type '" +
@@ -357,6 +447,10 @@ void TypeChecker::visit(AssignExpr& node) {
 
     node.getValue()->accept(*this);
     DataType valType = node.getValue()->getInferredType();
+    if (node.getValue()->getNodeType() == ASTNodeType::InputExpr) {
+        node.getValue()->setInferredType(sym->type);
+        valType = sym->type;
+    }
 
     if (!typesCompatible(sym->type, valType)) {
         diagnostics_.error(node.getSpan(),
@@ -365,6 +459,13 @@ void TypeChecker::visit(AssignExpr& node) {
     }
 
     node.setInferredType(sym->type);
+}
+
+void TypeChecker::visit(InputExpr& node) {
+    if (node.hasPrompt()) {
+        node.getPrompt()->accept(*this);
+    }
+    node.setInferredType(DataType::Sonkha);
 }
 
 } // namespace banglascript

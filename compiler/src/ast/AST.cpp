@@ -12,6 +12,7 @@ void BinaryExpr::accept(ASTVisitor& visitor) { visitor.visit(*this); }
 void UnaryExpr::accept(ASTVisitor& visitor) { visitor.visit(*this); }
 void CallExpr::accept(ASTVisitor& visitor) { visitor.visit(*this); }
 void AssignExpr::accept(ASTVisitor& visitor) { visitor.visit(*this); }
+void InputExpr::accept(ASTVisitor& visitor) { visitor.visit(*this); }
 
 void ExprStmt::accept(ASTVisitor& visitor) { visitor.visit(*this); }
 void BlockStmt::accept(ASTVisitor& visitor) { visitor.visit(*this); }
