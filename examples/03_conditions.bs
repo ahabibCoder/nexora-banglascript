@@ -1,0 +1,13 @@
+// 03_conditions.bs - Conditional branching (jodi - nahole)
+
+sonkha marks = 85;
+
+jodi (marks >= 90) {
+    dekhao("Grade: A+ (Outstanding)");
+} nahole jodi (marks >= 80) {
+    dekhao("Grade: A (Very Good)");
+} nahole jodi (marks >= 70) {
+    dekhao("Grade: B (Good)");
+} nahole {
+    dekhao("Grade: Needs Improvement");
+}

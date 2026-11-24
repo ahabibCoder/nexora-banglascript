@@ -1,0 +1,7 @@
+sonkha a = 10;
+sonkha b = 20;
+
+sonkha result = a + b;
+
+dekhao("Hello from BanglaScript!");
+dekhao(result);

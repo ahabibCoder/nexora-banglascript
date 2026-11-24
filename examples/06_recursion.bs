@@ -1,0 +1,26 @@
+// 06_recursion.bs - Recursive algorithms (Factorial & Fibonacci)
+
+kaj factorial(sonkha n) {
+    jodi (n <= 1) {
+        ferot 1;
+    }
+    ferot n * factorial(n - 1);
+}
+
+kaj fibonacci(sonkha n) {
+    jodi (n <= 0) {
+        ferot 0;
+    }
+    jodi (n == 1) {
+        ferot 1;
+    }
+    ferot fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+sonkha factVal = factorial(6);
+dekhao("Factorial of 6: ");
+dekhao(factVal); // 720
+
+sonkha fibVal = fibonacci(7);
+dekhao("Fibonacci 7th term: ");
+dekhao(fibVal); // 13

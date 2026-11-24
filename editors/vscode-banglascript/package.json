@@ -1,0 +1,124 @@
+{
+  "name": "banglascript-language-support",
+  "displayName": "BanglaScript Language Support",
+  "description": "Rich language support, syntax highlighting, snippets, and execution for BanglaScript (.bs)",
+  "version": "1.0.0",
+  "publisher": "nexora",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "banglascript",
+    "bengali",
+    "compiler",
+    "nexora",
+    "bs"
+  ],
+  "activationEvents": [
+    "onLanguage:banglascript"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "banglascript",
+        "aliases": [
+          "BanglaScript",
+          "banglascript",
+          "bs"
+        ],
+        "extensions": [
+          ".bs"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "banglascript",
+        "scopeName": "source.banglascript",
+        "path": "./syntaxes/banglascript.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "banglascript",
+        "path": "./snippets/banglascript.snippets.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "banglascript.run",
+        "title": "BanglaScript: Run Current File",
+        "icon": "$(play)"
+      },
+      {
+        "command": "banglascript.check",
+        "title": "BanglaScript: Check Syntax & Types"
+      },
+      {
+        "command": "banglascript.compile",
+        "title": "BanglaScript: Compile Current File"
+      },
+      {
+        "command": "banglascript.ast",
+        "title": "BanglaScript: Show Abstract Syntax Tree (AST)"
+      },
+      {
+        "command": "banglascript.tac",
+        "title": "BanglaScript: Show Three-Address Code (TAC)"
+      }
+    ],
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "banglascript.run",
+          "when": "resourceExtname == .bs",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "banglascript.run",
+          "when": "resourceExtname == .bs",
+          "group": "1_modification"
+        },
+        {
+          "command": "banglascript.check",
+          "when": "resourceExtname == .bs",
+          "group": "1_modification"
+        }
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "BanglaScript Configuration",
+      "properties": {
+        "banglascript.executablePath": {
+          "type": "string",
+          "default": "banglascript",
+          "description": "Path to the banglascript or bs CLI executable."
+        },
+        "banglascript.runInTerminal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run BanglaScript programs inside the VS Code integrated terminal."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.75.0",
+    "typescript": "^5.3.0"
+  }
+}

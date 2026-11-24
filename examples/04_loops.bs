@@ -1,0 +1,24 @@
+// 04_loops.bs - While loop (jotokhon) with break (bondho) and continue (chaliyejao)
+
+sonkha count = 0;
+sonkha total = 0;
+
+jotokhon (count < 10) {
+    count = count + 1;
+
+    // Skip number 5
+    jodi (count == 5) {
+        chaliyejao;
+    }
+
+    // Stop at number 8
+    jodi (count == 8) {
+        bondho;
+    }
+
+    dekhao(count);
+    total = total + count;
+}
+
+dekhao("Loop Finished. Sum: ");
+dekhao(total);

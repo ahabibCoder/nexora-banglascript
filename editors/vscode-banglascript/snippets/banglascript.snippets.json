@@ -1,0 +1,69 @@
+{
+  "Variable Declaration (Integer)": {
+    "prefix": "sonkha",
+    "body": [
+      "sonkha ${1:variableName} = ${2:0};"
+    ],
+    "description": "Declare an integer variable"
+  },
+  "Variable Declaration (Float)": {
+    "prefix": "dosomik",
+    "body": [
+      "dosomik ${1:variableName} = ${2:0.0};"
+    ],
+    "description": "Declare a floating-point variable"
+  },
+  "Variable Declaration (String)": {
+    "prefix": "bakya",
+    "body": [
+      "bakya ${1:variableName} = \"${2:text}\";"
+    ],
+    "description": "Declare a string variable"
+  },
+  "If Statement": {
+    "prefix": "jodi",
+    "body": [
+      "jodi (${1:condition}) {",
+      "\t${2:// code}",
+      "}"
+    ],
+    "description": "Conditional if statement"
+  },
+  "If-Else Statement": {
+    "prefix": "jodinahole",
+    "body": [
+      "jodi (${1:condition}) {",
+      "\t${2:// then branch}",
+      "} nahole {",
+      "\t${3:// else branch}",
+      "}"
+    ],
+    "description": "Conditional if-else statement"
+  },
+  "While Loop": {
+    "prefix": "jotokhon",
+    "body": [
+      "jotokhon (${1:condition}) {",
+      "\t${2:// loop body}",
+      "}"
+    ],
+    "description": "While loop iteration"
+  },
+  "Function Definition": {
+    "prefix": "kaj",
+    "body": [
+      "kaj ${1:functionName}(${2:parameters}) {",
+      "\t${3:// function body}",
+      "\tferot ${4:result};",
+      "}"
+    ],
+    "description": "Define a function"
+  },
+  "Print Statement": {
+    "prefix": "dekhao",
+    "body": [
+      "dekhao(${1:expression});"
+    ],
+    "description": "Print to standard output"
+  }
+}

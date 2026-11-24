@@ -1,0 +1,21 @@
+# Build outputs
+build/
+bin/
+lib/
+
+# Object files & archives
+*.o
+*.obj
+*.a
+*.lib
+
+# Executables
+*.exe
+
+# VS Code extension node_modules
+editors/vscode-banglascript/node_modules/
+editors/vscode-banglascript/.vscode-test/
+
+# OS artifacts
+.DS_Store
+Thumbs.db

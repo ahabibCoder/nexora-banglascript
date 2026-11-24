@@ -1,0 +1,117 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "BanglaScript",
+  "scopeName": "source.banglascript",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#types" },
+    { "include": "#keywords" },
+    { "include": "#constants" },
+    { "include": "#functions" },
+    { "include": "#operators" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.banglascript",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.banglascript",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.banglascript",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.banglascript",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.banglascript",
+          "match": "\\b[0-9]+\\.[0-9]+\\b"
+        },
+        {
+          "name": "constant.numeric.integer.banglascript",
+          "match": "\\b[0-9]+\\b"
+        },
+        {
+          "name": "constant.numeric.bengali.banglascript",
+          "match": "[০-৯]+"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.banglascript",
+          "match": "\\b(sonkha|dosomik|bakya|sotti|shunno)\\b|\\b(সংখ্যা|দশমিক|বাক্য|সত্যি|শূন্য)\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.banglascript",
+          "match": "\\b(jodi|nahole|jotokhon|bondho|chaliyejao|ferot)\\b|\\b(যদি|নাহলে|যতক্ষণ|বন্ধ|চালিয়েযাও|ফেরত)\\b"
+        },
+        {
+          "name": "keyword.declaration.banglascript",
+          "match": "\\b(kaj)\\b|\\b(কাজ)\\b"
+        },
+        {
+          "name": "support.function.builtin.banglascript",
+          "match": "\\b(dekhao|nao)\\b|\\b(দেখাও|নাও)\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.banglascript",
+          "match": "\\b(true|false)\\b|\\b(সত্য|মিথ্যা)\\b"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "entity.name.function.banglascript",
+          "match": "\\b([a-zA-Z_\\x{0980}-\\x{09FF}][a-zA-Z0-9_\\x{0980}-\\x{09FF}]*)\\s*(?=\\()"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arithmetic.banglascript",
+          "match": "(\\+|\\-|\\*|\\/|%)"
+        },
+        {
+          "name": "keyword.operator.comparison.banglascript",
+          "match": "(==|!=|<=|>=|<|>)"
+        },
+        {
+          "name": "keyword.operator.logical.banglascript",
+          "match": "(&&|\\|\\||!|\\bebong\\b|\\bothoba\\b|\\bna\\b)"
+        },
+        {
+          "name": "keyword.operator.assignment.banglascript",
+          "match": "(=)"
+        }
+      ]
+    }
+  }
+}

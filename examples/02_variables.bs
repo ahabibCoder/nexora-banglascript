@@ -1,0 +1,14 @@
+// 02_variables.bs - Primitive data types & operations in BanglaScript
+
+sonkha age = 22;
+dosomik price = 125.50;
+bakya name = "Hujaifa";
+sotti active = true;
+
+dekhao("User Name: " + name);
+dekhao("User Age: ");
+dekhao(age);
+dekhao("Account Active: ");
+dekhao(active);
+dekhao("Balance Price: ");
+dekhao(price);

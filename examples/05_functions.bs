@@ -1,0 +1,21 @@
+// 05_functions.bs - Function definitions, parameter passing & return values
+
+kaj jog(sonkha a, sonkha b) {
+    ferot a + b;
+}
+
+kaj biyog(sonkha a, sonkha b) {
+    ferot a - b;
+}
+
+sonkha x = 100;
+sonkha y = 45;
+
+sonkha sum = jog(x, y);
+sonkha diff = biyog(x, y);
+
+dekhao("Jogfol: ");
+dekhao(sum);
+
+dekhao("Biyogfol: ");
+dekhao(diff);
